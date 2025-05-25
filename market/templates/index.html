@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Viewer</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Stock Analyzer</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="symbol">Stock Symbol:</label>
+        <input list="symbolList" name="symbol" id="symbol" value="{{ symbol }}" autocomplete="off">
+        <datalist id="symbolList">
+            {% for sym in symbols %}
+                <option value="{{ sym }}">
+            {% endfor %}
+        </datalist>
+
+        <label for="year">Select Year:</label>
+        <select name="year" id="year">
+            {% for y in years %}
+                <option value="{{ y }}" {% if y == year %}selected{% endif %}>{{ y }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Fetch Data</button>
+    </form>
+
+    <h2>Results for {{ symbol }} in {{ year }}</h2>
+    <table>
+        <tr><th>Date</th><th>Open</th><th>Close</th><th>Volume</th></tr>
+        {% for r in records %}
+            <tr><td>{{ r.date }}</td><td>{{ r.open }}</td><td>{{ r.close }}</td><td>{{ r.volume }}</td></tr>
+        {% endfor %}
+    </table>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
