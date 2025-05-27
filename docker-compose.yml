@@ -40,10 +40,10 @@ services:
     volumes:
       - mongo_data:/data/db
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
       timeout: 10s
-      retries: 5
+      retries: 10
 
   rabbitmq:
     image: rabbitmq:3-management
